@@ -1,10 +1,10 @@
-import { FocusSession, Task, MoodEntry, UserStats, Achievement } from './types';
+import { FocusSession, Task, MoodEntry, UserStats, Achievement } from "./types";
 
 export const LocalStorage = {
   getFocusSessions: (userId: string): FocusSession[] => {
-    return JSON.parse(localStorage.getItem(`focusSessions_${userId}`) || '[]');
+    return JSON.parse(localStorage.getItem(`focusSessions_${userId}`) || "[]");
   },
-  
+
   saveFocusSession: (userId: string, session: FocusSession) => {
     const sessions = LocalStorage.getFocusSessions(userId);
     sessions.push(session);
@@ -12,7 +12,7 @@ export const LocalStorage = {
   },
 
   getTasks: (userId: string): Task[] => {
-    return JSON.parse(localStorage.getItem(`tasks_${userId}`) || '[]');
+    return JSON.parse(localStorage.getItem(`tasks_${userId}`) || "[]");
   },
 
   saveTasks: (userId: string, tasks: Task[]) => {
@@ -20,7 +20,7 @@ export const LocalStorage = {
   },
 
   getMoodEntries: (userId: string): MoodEntry[] => {
-    return JSON.parse(localStorage.getItem(`moodEntries_${userId}`) || '[]');
+    return JSON.parse(localStorage.getItem(`moodEntries_${userId}`) || "[]");
   },
 
   saveMoodEntry: (userId: string, entry: MoodEntry) => {
@@ -30,14 +30,17 @@ export const LocalStorage = {
   },
 
   getUserStats: (userId: string): UserStats => {
-    return JSON.parse(localStorage.getItem(`userStats_${userId}`) || JSON.stringify({
-      user_id: userId,
-      xp: 0,
-      level: 1,
-      tasks_completed: 0,
-      focus_sessions_completed: 0,
-      achievements: []
-    }));
+    return JSON.parse(
+      localStorage.getItem(`userStats_${userId}`) ||
+        JSON.stringify({
+          user_id: userId,
+          xp: 0,
+          level: 1,
+          tasks_completed: 0,
+          focus_sessions_completed: 0,
+          achievements: [],
+        })
+    );
   },
 
   updateUserStats: (userId: string, stats: UserStats) => {
@@ -55,13 +58,24 @@ export const LocalStorage = {
   unlockAchievement: (userId: string, achievementId: string) => {
     const stats = LocalStorage.getUserStats(userId);
     if (!stats.achievements) stats.achievements = [];
-    
-    if (!stats.achievements.find(a => a.id === achievementId)) {
+
+    if (!stats.achievements.find((a) => a.id === achievementId)) {
       stats.achievements.push({
         id: achievementId,
-        unlockedAt: new Date().toISOString()
+        unlockedAt: new Date().toISOString(),
+        title: "",
+        description: "",
+        category: "time",
+        tier: "bronze",
+        animal: "penguin",
+        condition: {
+          type: "special",
+          value: 0,
+          timeframe: undefined,
+        },
+        xpReward: 0,
       });
       LocalStorage.updateUserStats(userId, stats);
     }
-  }
+  },
 };

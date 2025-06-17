@@ -88,6 +88,34 @@ export interface Achievement {
   unlockedAt?: string;
 }
 
+// Define the animal and tier types as const arrays
+const ANIMALS = [
+  "penguin",
+  "bear",
+  "cat",
+  "dog",
+  "rabbit",
+  "fox",
+  "owl",
+  "lion",
+  "tiger",
+  "panda",
+  "koala",
+  "wolf",
+  "deer",
+  "elephant",
+  "giraffe",
+] as const;
+
+const TIERS = [
+  "bronze",
+  "silver",
+  "gold",
+  "platinum",
+  "diamond",
+  "legendary",
+] as const;
+
 // Generate 1000+ achievements programmatically
 export const ACHIEVEMENTS: Achievement[] = [
   // TASK COMPLETION ACHIEVEMENTS (200 achievements)
@@ -99,7 +127,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Complete ${(i + 1) * 5} tasks`,
     category: "tasks" as const,
     tier: "bronze" as const,
-    animal: ["cat", "dog", "rabbit", "fox", "penguin"][i % 5] as const,
+    animal: ["cat", "dog", "rabbit", "fox", "penguin"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "tasks_completed" as const,
       value: (i + 1) * 5,
@@ -115,7 +145,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Complete ${(i + 1) * 50 + 250} tasks`,
     category: "tasks" as const,
     tier: "silver" as const,
-    animal: ["bear", "lion", "tiger", "wolf", "owl"][i % 5] as const,
+    animal: ["bear", "lion", "tiger", "wolf", "owl"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "tasks_completed" as const,
       value: (i + 1) * 50 + 250,
@@ -131,7 +163,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Complete ${(i + 1) * 100 + 1500} tasks`,
     category: "tasks" as const,
     tier: "gold" as const,
-    animal: ["panda", "koala", "elephant", "giraffe", "deer"][i % 5] as const,
+    animal: ["panda", "koala", "elephant", "giraffe", "deer"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "tasks_completed" as const,
       value: (i + 1) * 100 + 1500,
@@ -148,7 +182,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Complete ${(i + 1) * 2} focus sessions`,
     category: "focus" as const,
     tier: "bronze" as const,
-    animal: ["cat", "rabbit", "fox", "penguin", "dog"][i % 5] as const,
+    animal: ["cat", "rabbit", "fox", "penguin", "dog"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "focus_sessions" as const,
       value: (i + 1) * 2,
@@ -164,7 +200,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Complete ${(i + 1) * 10 + 100} focus sessions`,
     category: "focus" as const,
     tier: "silver" as const,
-    animal: ["bear", "owl", "lion", "tiger", "wolf"][i % 5] as const,
+    animal: ["bear", "owl", "lion", "tiger", "wolf"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "focus_sessions" as const,
       value: (i + 1) * 10 + 100,
@@ -180,7 +218,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Complete ${(i + 1) * 25 + 600} focus sessions`,
     category: "focus" as const,
     tier: "gold" as const,
-    animal: ["panda", "elephant", "giraffe", "koala", "deer"][i % 5] as const,
+    animal: ["panda", "elephant", "giraffe", "koala", "deer"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "focus_sessions" as const,
       value: (i + 1) * 25 + 600,
@@ -199,7 +239,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Complete tasks for ${i + 2} consecutive days`,
     category: "streak" as const,
     tier: "bronze" as const,
-    animal: ["cat", "dog", "rabbit", "fox", "penguin"][i % 5] as const,
+    animal: ["cat", "dog", "rabbit", "fox", "penguin"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "task_streak" as const,
       value: i + 2,
@@ -218,7 +260,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Complete focus sessions for ${i + 3} consecutive days`,
     category: "streak" as const,
     tier: "silver" as const,
-    animal: ["bear", "owl", "lion", "tiger", "wolf"][i % 5] as const,
+    animal: ["bear", "owl", "lion", "tiger", "wolf"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "focus_sessions" as const,
       value: i + 3,
@@ -235,7 +279,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Track mood for ${i + 3} consecutive days`,
     category: "mood" as const,
     tier: "bronze" as const,
-    animal: ["panda", "koala", "elephant", "giraffe", "deer"][i % 5] as const,
+    animal: ["panda", "koala", "elephant", "giraffe", "deer"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "mood_streak" as const,
       value: i + 3,
@@ -263,16 +309,15 @@ export const ACHIEVEMENTS: Achievement[] = [
     }`,
     description: `Reach level ${i + 1}`,
     category: "level" as const,
-    tier:
-      i < 20
-        ? "bronze"
-        : i < 50
-        ? "silver"
-        : i < 80
-        ? "gold"
-        : i < 95
-        ? "platinum"
-        : ("legendary" as const),
+    tier: (i < 20
+      ? "bronze"
+      : i < 50
+      ? "silver"
+      : i < 80
+      ? "gold"
+      : i < 95
+      ? "platinum"
+      : "legendary") as Achievement["tier"],
     animal: [
       "cat",
       "dog",
@@ -289,7 +334,7 @@ export const ACHIEVEMENTS: Achievement[] = [
       "elephant",
       "giraffe",
       "deer",
-    ][i % 15] as const,
+    ][i % 15] as Achievement["animal"],
     condition: {
       type: "level_reached" as const,
       value: i + 1,
@@ -318,16 +363,15 @@ export const ACHIEVEMENTS: Achievement[] = [
     } ${Math.floor(i / 10) + 1}`,
     description: `Earn ${(i + 1) * 1000} total XP`,
     category: "level" as const,
-    tier:
-      i < 25
-        ? "bronze"
-        : i < 50
-        ? "silver"
-        : i < 75
-        ? "gold"
-        : i < 90
-        ? "platinum"
-        : ("legendary" as const),
+    tier: (i < 25
+      ? "bronze"
+      : i < 50
+      ? "silver"
+      : i < 75
+      ? "gold"
+      : i < 90
+      ? "platinum"
+      : "legendary") as Achievement["tier"],
     animal: [
       "cat",
       "dog",
@@ -344,7 +388,7 @@ export const ACHIEVEMENTS: Achievement[] = [
       "elephant",
       "giraffe",
       "deer",
-    ][i % 15] as const,
+    ][i % 15] as Achievement["animal"],
     condition: {
       type: "xp_earned" as const,
       value: (i + 1) * 1000,
@@ -361,7 +405,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Log in for ${i + 1} consecutive days`,
     category: "time" as const,
     tier: "bronze" as const,
-    animal: ["cat", "dog", "rabbit", "fox", "penguin"][i % 5] as const,
+    animal: ["cat", "dog", "rabbit", "fox", "penguin"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "login_streak" as const,
       value: i + 1,
@@ -378,7 +424,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Complete weekly goals for ${i + 1} consecutive weeks`,
     category: "time" as const,
     tier: "silver" as const,
-    animal: ["bear", "owl", "lion", "tiger", "wolf"][i % 5] as const,
+    animal: ["bear", "owl", "lion", "tiger", "wolf"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "task_streak" as const,
       value: (i + 1) * 7,
@@ -395,7 +443,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Complete monthly goals for ${i + 1} consecutive months`,
     category: "time" as const,
     tier: "gold" as const,
-    animal: ["panda", "koala", "elephant", "giraffe"][i % 4] as const,
+    animal: ["panda", "koala", "elephant", "giraffe"][
+      i % 4
+    ] as Achievement["animal"],
     condition: {
       type: "task_streak" as const,
       value: (i + 1) * 30,
@@ -440,7 +490,7 @@ export const ACHIEVEMENTS: Achievement[] = [
       "elephant",
       "giraffe",
       "deer",
-    ][i % 15] as const,
+    ][i % 15] as Achievement["animal"],
     condition: {
       type: "special" as const,
       value: i + 2,
@@ -456,7 +506,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Complete all daily goals for ${(i + 1) * 7} consecutive days`,
     category: "special" as const,
     tier: "diamond" as const,
-    animal: ["panda", "koala", "elephant", "giraffe", "deer"][i % 5] as const,
+    animal: ["panda", "koala", "elephant", "giraffe", "deer"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "task_streak" as const,
       value: (i + 1) * 7,
@@ -473,7 +525,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     description: `Complete ${(i + 1) * 5} tasks in one day`,
     category: "special" as const,
     tier: "legendary" as const,
-    animal: ["cat", "dog", "rabbit", "fox", "penguin"][i % 5] as const,
+    animal: ["cat", "dog", "rabbit", "fox", "penguin"][
+      i % 5
+    ] as Achievement["animal"],
     condition: {
       type: "tasks_completed" as const,
       value: (i + 1) * 5,
@@ -493,7 +547,7 @@ export const ACHIEVEMENTS: Achievement[] = [
     }`,
     category: "special" as const,
     tier: "gold" as const,
-    animal: ["rabbit", "lion", "fox", "bear"][i % 4] as const,
+    animal: ["rabbit", "lion", "fox", "bear"][i % 4] as Achievement["animal"],
     condition: {
       type: "special" as const,
       value: 100,
@@ -506,30 +560,30 @@ export const ACHIEVEMENTS: Achievement[] = [
     id: "night_owl",
     title: "Night Owl Scholar",
     description: "Complete 50 focus sessions after 10 PM",
-    category: "special",
-    tier: "silver",
-    animal: "owl",
-    condition: { type: "special", value: 50 },
+    category: "special" as const,
+    tier: "silver" as const,
+    animal: "owl" as const,
+    condition: { type: "special" as const, value: 50 },
     xpReward: 800,
   },
   {
     id: "early_bird",
     title: "Early Bird Champion",
     description: "Complete 50 tasks before 8 AM",
-    category: "special",
-    tier: "silver",
-    animal: "cat",
-    condition: { type: "special", value: 50 },
+    category: "special" as const,
+    tier: "silver" as const,
+    animal: "cat" as const,
+    condition: { type: "special" as const, value: 50 },
     xpReward: 800,
   },
   {
     id: "weekend_warrior",
     title: "Weekend Warrior",
     description: "Complete tasks on 20 consecutive weekends",
-    category: "special",
-    tier: "gold",
-    animal: "lion",
-    condition: { type: "special", value: 20 },
+    category: "special" as const,
+    tier: "gold" as const,
+    animal: "lion" as const,
+    condition: { type: "special" as const, value: 20 },
     xpReward: 1200,
   },
 ];
