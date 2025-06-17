@@ -94,7 +94,7 @@ export function Navigation({
 
         {isGuest && showAlert && (
           <div className="container py-2">
-            <Alert variant="warning" className="bg-yellow-500/10">
+            <Alert variant="destructive" className="bg-yellow-500/10">
               <AlertTriangle className="h-4 w-4" />
               <AlertDescription className="ml-2 flex flex-wrap items-center gap-2">
                 <span>
