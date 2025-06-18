@@ -63,17 +63,6 @@ export const LocalStorage = {
       stats.achievements.push({
         id: achievementId,
         unlockedAt: new Date().toISOString(),
-        title: "",
-        description: "",
-        category: "time",
-        tier: "bronze",
-        animal: "penguin",
-        condition: {
-          type: "special",
-          value: 0,
-          timeframe: undefined,
-        },
-        xpReward: 0,
       });
       LocalStorage.updateUserStats(userId, stats);
     }

@@ -51,15 +51,13 @@ export default function Home() {
     } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN" && session?.user) {
         const user = session.user;
-        setUserId(user.id ?? null);
-        setUserEmail(user.email ?? null);
+        setUserId(user.id);
+        setUserEmail(user.email);
         setIsLoggedIn(true);
         setIsGuest(false);
 
         // Save user to DB if not exist
-        if (user.id && user.email) {
-          await saveUserToDB(user.id, user.email);
-        }
+        await saveUserToDB(user.id, user.email);
 
         // If guest before, migrate data here (optional)
         migrateGuestDataToUser(user.id);
@@ -83,15 +81,12 @@ export default function Home() {
     } = await supabase.auth.getSession();
 
     if (session?.user) {
-      setUserId(session.user.id ?? null);
-      setUserEmail(session.user.email ?? null);
+      setUserId(session.user.id);
+      setUserEmail(session.user.email);
       setIsLoggedIn(true);
       setIsGuest(false);
 
-      // Only save to DB if both id and email are present
-      if (session.user.id && session.user.email) {
-        await saveUserToDB(session.user.id, session.user.email);
-      }
+      await saveUserToDB(session.user.id, session.user.email);
 
       return;
     }
@@ -295,7 +290,7 @@ export default function Home() {
               value="focus"
               className="mt-6 animate-slide-up-delay-1"
             >
-              <Timer userId={userId} isGuest={false} />
+              <Timer userId={userId} />
             </TabsContent>
             <TabsContent
               value="tasks"
@@ -304,7 +299,7 @@ export default function Home() {
               <FocusTracker userId={userId} isGuest={isGuest} />
             </TabsContent>
             <TabsContent value="mood" className="mt-6 animate-slide-up-delay-1">
-              <MoodTracker userId={userId} isGuest={false} />
+              <MoodTracker userId={userId} />
             </TabsContent>
             <TabsContent
               value="achievements"
@@ -344,7 +339,8 @@ export default function Home() {
               </AlertDialogAction>
               <AlertDialogAction
                 onClick={() => handleGuestLogoutConfirm(false)}
-                className="hover-shake bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                variant="destructive"
+                className="hover-shake"
               >
                 Logout & Delete Progress
               </AlertDialogAction>

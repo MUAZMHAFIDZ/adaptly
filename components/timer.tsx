@@ -1,24 +1,18 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { supabase, supabaseHelpers } from "@/lib/supabase";
-import { LocalStorage } from "@/lib/localStorage";
-import { Play, Pause, RotateCcw, BellRing, BellOff } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
+import { useState, useEffect } from 'react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { supabase, supabaseHelpers } from '@/lib/supabase';
+import { LocalStorage } from '@/lib/localStorage';
+import { Play, Pause, RotateCcw, BellRing, BellOff } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
 
 const FOCUS_TIME = 25 * 60; // 25 minutes in seconds
 const BREAK_TIME = 5 * 60; // 5 minutes in seconds
 
-export function Timer({
-  userId,
-  isGuest,
-}: {
-  userId: string;
-  isGuest: boolean;
-}) {
+export function Timer({ userId, isGuest }: { userId: string; isGuest: boolean }) {
   const [timeLeft, setTimeLeft] = useState(FOCUS_TIME);
   const [isRunning, setIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
@@ -47,19 +41,19 @@ export function Timer({
   }, [isRunning, timeLeft]);
 
   async function requestNotificationPermission() {
-    if ("Notification" in window) {
+    if ('Notification' in window) {
       await Notification.requestPermission();
     }
   }
 
   function sendNotification(title: string, body: string) {
     if (dndEnabled) return;
-
-    if ("Notification" in window && Notification.permission === "granted") {
+    
+    if ('Notification' in window && Notification.permission === 'granted') {
       if (notification) notification.close();
       const newNotification = new Notification(title, {
         body,
-        icon: "/icon-192x192.png",
+        icon: '/icon-192x192.png'
       });
       setNotification(newNotification);
     }
@@ -74,27 +68,30 @@ export function Timer({
         LocalStorage.saveFocusSession(userId, {
           user_id: userId,
           duration: FOCUS_TIME,
-          completed_at: new Date().toISOString(),
+          completed_at: new Date().toISOString()
         });
         LocalStorage.addXP(userId, 200);
       } else {
         await supabaseHelpers.saveFocusSession(userId, {
           duration: FOCUS_TIME,
-          completed_at: new Date().toISOString(),
+          completed_at: new Date().toISOString()
         });
         await supabaseHelpers.addXP(userId, 200);
       }
 
       sendNotification(
-        "Focus Session Complete!",
-        "Great work! Take a short break."
+        'Focus Session Complete!',
+        'Great work! Take a short break.'
       );
 
       // Switch to break time
       setIsBreak(true);
       setTimeLeft(BREAK_TIME);
     } else {
-      sendNotification("Break Time Over", "Ready to focus again?");
+      sendNotification(
+        'Break Time Over',
+        'Ready to focus again?'
+      );
 
       // Switch back to focus time
       setIsBreak(false);
@@ -105,12 +102,12 @@ export function Timer({
   function formatTime(seconds: number) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   }
 
   const progress = Math.round(
-    (((isBreak ? BREAK_TIME : FOCUS_TIME) - timeLeft) /
-      (isBreak ? BREAK_TIME : FOCUS_TIME)) *
+    ((isBreak ? BREAK_TIME : FOCUS_TIME) - timeLeft) /
+      (isBreak ? BREAK_TIME : FOCUS_TIME) *
       100
   );
 
@@ -119,15 +116,14 @@ export function Timer({
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-medium">
-            {isBreak ? "Break Time" : "Focus Time"}
+            {isBreak ? 'Break Time' : 'Focus Time'}
           </h3>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">
-              Do Not Disturb
-            </span>
+            <span className="text-sm text-muted-foreground">Do Not Disturb</span>
             <Switch
               checked={dndEnabled}
               onCheckedChange={setDndEnabled}
+              size="sm"
               className="transition-smooth"
             />
           </div>
@@ -138,7 +134,7 @@ export function Timer({
             {formatTime(timeLeft)}
           </p>
           <p className="text-sm text-muted-foreground mt-1 animate-fade-in">
-            {isBreak ? "Time to recharge!" : "Stay focused!"}
+            {isBreak ? 'Time to recharge!' : 'Stay focused!'}
           </p>
         </div>
 
@@ -159,9 +155,7 @@ export function Timer({
           <Button
             size="icon"
             onClick={() => setIsRunning(!isRunning)}
-            className={`hover-lift btn-ripple ${
-              isRunning ? "animate-heartbeat" : ""
-            }`}
+            className={`hover-lift btn-ripple ${isRunning ? 'animate-heartbeat' : ''}`}
           >
             {isRunning ? (
               <Pause className="h-4 w-4" />
@@ -185,8 +179,7 @@ export function Timer({
 
         {isRunning && (
           <p className="text-center text-sm text-muted-foreground animate-fade-in">
-            {isBreak ? "Break ends in" : "Focus session ends in"}{" "}
-            {formatTime(timeLeft)}
+            {isBreak ? 'Break ends in' : 'Focus session ends in'} {formatTime(timeLeft)}
           </p>
         )}
       </div>
